@@ -1,0 +1,26 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "type": "module",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^14.14.36",
+    "prisma": "^2.19.0",
+    "ts-node-dev": "^1.1.6",
+    "typescript": "^4.2.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^2.19.0",
+    "apollo-server": "^2.22.1",
+    "dotenv": "^8.2.0",
+    "graphql": "^15.5.0",
+    "nexus": "^1.0.0",
+    "nexus-plugin-prisma": "^0.33.0",
+    "ts-node-dev": "^1.1.6"
+  },
+  "scripts": {
+    "dev": "ts-node-dev --transpile-only --no-notify src/server.ts",
+    "build": "tsc"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "straffepils",
+  "version": "1.0.0",
+  "repository": "git@github.com:Lekesoldat/straffepils.git",
+  "author": "Magnus Lauritzen Holtet <magnulho@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "client": "yarn workspace client start",
+    "server": "yarn workspace client server",
+    "server-dev": "yarn workspace server dev"
+  }
+}

@@ -24,11 +24,12 @@ enum Gender {
 }
 
 type Mutation {
-  createUser(birthDate: String!, gender: Gender!, height: Float!, name: String!, weight: Float!): User
+  createUser(birthDate: String!, gender: Gender!, name: String!, weight: Float!): User
 }
 
 type Participant {
   consumptions: [Consumption]
+  currentBAC: Float
   joinedDate: DateTime!
   user: User
 }
@@ -39,6 +40,7 @@ type Query {
   allSessions: [Session]
   allUsers: [User]
   findDrink(drinkId: Int!): Drink
+  findSession(id: ID!): Session
   findUser(uuid: String!): User
 }
 
@@ -57,7 +59,6 @@ type Subscription {
 type User {
   birthDate: DateTime!
   gender: Gender
-  height: Float
   id: ID
   name: String
   weight: Float

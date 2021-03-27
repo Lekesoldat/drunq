@@ -24,6 +24,7 @@
   "scripts": {
     "dev": "ts-node-dev --transpile-only --no-notify src/server.ts",
     "build": "tsc",
-    "populate": "ts-node-dev populate.ts"
+    "populate": "ts-node-dev populate.ts",
+    "calc": "ts-node-dev src/utils/calculations.ts"
   }
 }

@@ -19,7 +19,6 @@ import faker from "faker/locale/nb_NO";
       name: faker.name.firstName(),
       birthDate: faker.date.past(),
       gender: Math.random() > 0.5 ? Gender.MALE : Gender.FEMALE,
-      height: faker.random.number({ min: 140, max: 210 }),
       weight: faker.random.number({ min: 50, max: 120 }),
     },
   });
@@ -29,7 +28,6 @@ import faker from "faker/locale/nb_NO";
       name: faker.name.firstName(),
       birthDate: faker.date.past(),
       gender: Math.random() > 0.5 ? Gender.MALE : Gender.FEMALE,
-      height: faker.random.number({ min: 140, max: 210 }),
       weight: faker.random.number({ min: 50, max: 120 }),
     },
   });
@@ -39,7 +37,6 @@ import faker from "faker/locale/nb_NO";
       name: faker.name.firstName(),
       birthDate: faker.date.past(),
       gender: Math.random() > 0.5 ? Gender.MALE : Gender.FEMALE,
-      height: faker.random.number({ min: 140, max: 210 }),
       weight: faker.random.number({ min: 50, max: 120 }),
     },
   });

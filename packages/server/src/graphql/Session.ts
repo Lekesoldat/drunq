@@ -1,5 +1,5 @@
 import { Session as SessionModel } from "@prisma/client";
-import { extendType, list, objectType } from "nexus";
+import { extendType, idArg, list, nonNull, objectType } from "nexus";
 import { Participant } from "./Participant";
 import { User } from "./User";
 
@@ -38,6 +38,15 @@ export const SessionQuery = extendType({
     t.field("allSessions", {
       type: list(Session),
       resolve: async (_, __, ctx) => await ctx.prisma.session.findMany(),
+    });
+
+    t.field("findSession", {
+      type: Session,
+      args: {
+        id: nonNull(idArg()),
+      },
+      resolve: async (_, { id }, ctx) =>
+        await ctx.prisma.session.findUnique({ where: { id } }),
     });
   },
 });

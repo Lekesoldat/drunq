@@ -59,7 +59,6 @@ export interface NexusGenObjects {
   User: { // root type
     birthDate: NexusGenScalars['DateTime']; // DateTime!
     gender?: NexusGenEnums['Gender'] | null; // Gender
-    height?: number | null; // Float
     id?: string | null; // ID
     name?: string | null; // String
     weight?: number | null; // Float
@@ -93,6 +92,7 @@ export interface NexusGenFieldTypes {
   }
   Participant: { // field return type
     consumptions: Array<NexusGenRootTypes['Consumption'] | null> | null; // [Consumption]
+    currentBAC: number | null; // Float
     joinedDate: NexusGenScalars['DateTime']; // DateTime!
     user: NexusGenRootTypes['User'] | null; // User
   }
@@ -102,6 +102,7 @@ export interface NexusGenFieldTypes {
     allSessions: Array<NexusGenRootTypes['Session'] | null> | null; // [Session]
     allUsers: Array<NexusGenRootTypes['User'] | null> | null; // [User]
     findDrink: NexusGenRootTypes['Drink'] | null; // Drink
+    findSession: NexusGenRootTypes['Session'] | null; // Session
     findUser: NexusGenRootTypes['User'] | null; // User
   }
   Session: { // field return type
@@ -117,7 +118,6 @@ export interface NexusGenFieldTypes {
   User: { // field return type
     birthDate: NexusGenScalars['DateTime']; // DateTime!
     gender: NexusGenEnums['Gender'] | null; // Gender
-    height: number | null; // Float
     id: string | null; // ID
     name: string | null; // String
     weight: number | null; // Float
@@ -141,6 +141,7 @@ export interface NexusGenFieldTypeNames {
   }
   Participant: { // field return type name
     consumptions: 'Consumption'
+    currentBAC: 'Float'
     joinedDate: 'DateTime'
     user: 'User'
   }
@@ -150,6 +151,7 @@ export interface NexusGenFieldTypeNames {
     allSessions: 'Session'
     allUsers: 'User'
     findDrink: 'Drink'
+    findSession: 'Session'
     findUser: 'User'
   }
   Session: { // field return type name
@@ -165,7 +167,6 @@ export interface NexusGenFieldTypeNames {
   User: { // field return type name
     birthDate: 'DateTime'
     gender: 'Gender'
-    height: 'Float'
     id: 'ID'
     name: 'String'
     weight: 'Float'
@@ -177,7 +178,6 @@ export interface NexusGenArgTypes {
     createUser: { // args
       birthDate: string; // String!
       gender: NexusGenEnums['Gender']; // Gender!
-      height: number; // Float!
       name: string; // String!
       weight: number; // Float!
     }
@@ -185,6 +185,9 @@ export interface NexusGenArgTypes {
   Query: {
     findDrink: { // args
       drinkId: number; // Int!
+    }
+    findSession: { // args
+      id: string; // ID!
     }
     findUser: { // args
       uuid: string; // String!

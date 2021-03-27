@@ -22,7 +22,6 @@ export const User = objectType({
     t.id("id");
     t.string("name");
     t.model.birthDate();
-    t.float("height");
     t.float("weight");
     t.field("gender", { type: Gender });
   },
@@ -59,7 +58,6 @@ export const UserMutation = extendType({
       args: {
         name: nonNull(stringArg()),
         birthDate: nonNull(stringArg()),
-        height: nonNull(floatArg()),
         weight: nonNull(floatArg()),
         gender: nonNull(Gender),
       },

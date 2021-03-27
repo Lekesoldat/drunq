@@ -35,8 +35,26 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Consumption: { // root type
+    id?: string | null; // ID
+    time: NexusGenScalars['DateTime']; // DateTime!
+  }
+  Drink: { // root type
+    id: string; // String!
+    name?: string | null; // String
+    percentage?: number | null; // Float
+    volume?: number | null; // Float
+  }
   Mutation: {};
+  Participant: { // root type
+    joinedDate: NexusGenScalars['DateTime']; // DateTime!
+  }
   Query: {};
+  Session: { // root type
+    code?: string | null; // String
+    id?: string | null; // ID
+    name?: string | null; // String
+  }
   Subscription: {};
   User: { // root type
     birthDate: NexusGenScalars['DateTime']; // DateTime!
@@ -59,12 +77,39 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  Consumption: { // field return type
+    drink: NexusGenRootTypes['Drink'] | null; // Drink
+    id: string | null; // ID
+    time: NexusGenScalars['DateTime']; // DateTime!
+  }
+  Drink: { // field return type
+    id: string; // String!
+    name: string | null; // String
+    percentage: number | null; // Float
+    volume: number | null; // Float
+  }
   Mutation: { // field return type
     createUser: NexusGenRootTypes['User'] | null; // User
   }
+  Participant: { // field return type
+    consumptions: Array<NexusGenRootTypes['Consumption'] | null> | null; // [Consumption]
+    joinedDate: NexusGenScalars['DateTime']; // DateTime!
+    user: NexusGenRootTypes['User'] | null; // User
+  }
   Query: { // field return type
+    allConsumptions: Array<NexusGenRootTypes['Consumption'] | null> | null; // [Consumption]
+    allDrinks: Array<NexusGenRootTypes['Drink'] | null> | null; // [Drink]
+    allSessions: Array<NexusGenRootTypes['Session'] | null> | null; // [Session]
     allUsers: Array<NexusGenRootTypes['User'] | null> | null; // [User]
+    findDrink: NexusGenRootTypes['Drink'] | null; // Drink
     findUser: NexusGenRootTypes['User'] | null; // User
+  }
+  Session: { // field return type
+    code: string | null; // String
+    id: string | null; // ID
+    name: string | null; // String
+    owner: NexusGenRootTypes['User'] | null; // User
+    participants: Array<NexusGenRootTypes['Participant'] | null> | null; // [Participant]
   }
   Subscription: { // field return type
     newUser: NexusGenRootTypes['User'] | null; // User
@@ -80,12 +125,39 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  Consumption: { // field return type name
+    drink: 'Drink'
+    id: 'ID'
+    time: 'DateTime'
+  }
+  Drink: { // field return type name
+    id: 'String'
+    name: 'String'
+    percentage: 'Float'
+    volume: 'Float'
+  }
   Mutation: { // field return type name
     createUser: 'User'
   }
+  Participant: { // field return type name
+    consumptions: 'Consumption'
+    joinedDate: 'DateTime'
+    user: 'User'
+  }
   Query: { // field return type name
+    allConsumptions: 'Consumption'
+    allDrinks: 'Drink'
+    allSessions: 'Session'
     allUsers: 'User'
+    findDrink: 'Drink'
     findUser: 'User'
+  }
+  Session: { // field return type name
+    code: 'String'
+    id: 'ID'
+    name: 'String'
+    owner: 'User'
+    participants: 'Participant'
   }
   Subscription: { // field return type name
     newUser: 'User'
@@ -111,6 +183,9 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    findDrink: { // args
+      drinkId: number; // Int!
+    }
     findUser: { // args
       uuid: string; // String!
     }

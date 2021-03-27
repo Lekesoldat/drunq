@@ -3,11 +3,12 @@ import { ApolloServer, PubSub } from "apollo-server";
 import "dotenv/config";
 import { schema } from "./schema";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({ log: ["query"] });
 const pubsub = new PubSub();
 const server = new ApolloServer({
   schema,
   context: { prisma, pubsub },
+  tracing: true,
 });
 
 (async () => {

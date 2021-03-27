@@ -27,39 +27,39 @@ model User {
 }
 
 model Session {
-  id          String        @id @default(uuid()) @db.Uuid
-  name        String
-  code        String        @unique
-  owner       User          @relation(fields: [ownerId], references: [id])
-  ownerId     String        @db.Uuid
-  Participant Participant[]
+  id           String        @id @default(uuid()) @db.Uuid
+  name         String
+  code         String        @unique
+  owner        User          @relation(fields: [ownerId], references: [id])
+  ownerId      String        @db.Uuid
+  participants Participant[]
 }
 
 model Participant {
-  userId       String        @db.Uuid
-  sessionId    String        @db.Uuid
-  joinedDate   DateTime      @default(now())
-  user         User          @relation(fields: [userId], references: [id])
-  session      Session       @relation(fields: [sessionId], references: [id])
-  Consumptions Consumption[]
+  userId     String   @db.Uuid
+  sessionId  String   @db.Uuid
+  joinedDate DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
+  session    Session  @relation(fields: [sessionId], references: [id])
 
+  Consumption Consumption[]
   @@id([userId, sessionId])
 }
 
 model Consumption {
-  id                   Int         @id @default(autoincrement())
-  time                 DateTime    @db.Time
+  id                   String      @id @default(uuid()) @db.Uuid
+  time                 DateTime    @default(now())
   participant          Participant @relation(fields: [participantUserId, participantSessionId], references: [userId, sessionId])
   participantUserId    String      @db.Uuid
   participantSessionId String      @db.Uuid
   drink                Drink       @relation(fields: [drinkId], references: [id])
-  drinkId              Int
+  drinkId              String      @db.Uuid
 }
 
 model Drink {
-  id          Int           @id @default(autoincrement())
+  id          String        @id @default(uuid()) @db.Uuid
   name        String
   percentage  Float
   volume      Float
-  Consumption Consumption[]
+  consumption Consumption[]
 }

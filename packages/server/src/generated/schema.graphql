@@ -2,7 +2,20 @@
 ### Do not make changes to this file directly
 
 
+type Consumption {
+  drink: Drink
+  id: ID
+  time: DateTime!
+}
+
 scalar DateTime
+
+type Drink {
+  id: String!
+  name: String
+  percentage: Float
+  volume: Float
+}
 
 """The available genders."""
 enum Gender {
@@ -14,9 +27,27 @@ type Mutation {
   createUser(birthDate: String!, gender: Gender!, height: Float!, name: String!, weight: Float!): User
 }
 
+type Participant {
+  consumptions: [Consumption]
+  joinedDate: DateTime!
+  user: User
+}
+
 type Query {
+  allConsumptions: [Consumption]
+  allDrinks: [Drink]
+  allSessions: [Session]
   allUsers: [User]
+  findDrink(drinkId: Int!): Drink
   findUser(uuid: String!): User
+}
+
+type Session {
+  code: String
+  id: ID
+  name: String
+  owner: User
+  participants: [Participant]
 }
 
 type Subscription {

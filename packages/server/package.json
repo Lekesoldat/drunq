@@ -12,8 +12,10 @@
   },
   "dependencies": {
     "@prisma/client": "^2.19.0",
+    "@types/faker": "^5.1.7",
     "apollo-server": "^2.22.1",
     "dotenv": "^8.2.0",
+    "faker": "^5.5.1",
     "graphql": "^15.5.0",
     "nexus": "^1.0.0",
     "nexus-plugin-prisma": "^0.33.0",
@@ -21,6 +23,7 @@
   },
   "scripts": {
     "dev": "ts-node-dev --transpile-only --no-notify src/server.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "populate": "ts-node-dev populate.ts"
   }
 }

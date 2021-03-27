@@ -15,17 +15,25 @@ type CustomScalars = 'DateTime'
 // Prisma model type definitions
 interface PrismaModels {
   User: Prisma.User
+  Session: Prisma.Session
 }
 
 // Prisma input types metadata
 interface NexusPrismaInputs {
   Query: {
     users: {
-      filtering: 'AND' | 'OR' | 'NOT' | 'id' | 'name' | 'birthDate' | 'height' | 'weight' | 'gender'
-      ordering: 'id' | 'name' | 'birthDate' | 'height' | 'weight' | 'gender'
+      filtering: 'AND' | 'OR' | 'NOT' | 'userId' | 'name' | 'birthDate' | 'height' | 'weight' | 'gender'
+      ordering: 'userId' | 'name' | 'birthDate' | 'height' | 'weight' | 'gender'
+    }
+    sessions: {
+      filtering: 'AND' | 'OR' | 'NOT' | 'sessionId' | 'name' | 'code'
+      ordering: 'sessionId' | 'name' | 'code'
     }
   },
   User: {
+
+  }
+  Session: {
 
   }
 }
@@ -35,6 +43,8 @@ interface NexusPrismaOutputs {
   Query: {
     user: 'User'
     users: 'User'
+    session: 'Session'
+    sessions: 'Session'
   },
   Mutation: {
     createOneUser: 'User'
@@ -43,20 +53,32 @@ interface NexusPrismaOutputs {
     deleteOneUser: 'User'
     deleteManyUser: 'AffectedRowsOutput'
     upsertOneUser: 'User'
+    createOneSession: 'Session'
+    updateOneSession: 'Session'
+    updateManySession: 'AffectedRowsOutput'
+    deleteOneSession: 'Session'
+    deleteManySession: 'AffectedRowsOutput'
+    upsertOneSession: 'Session'
   },
   User: {
-    id: 'String'
+    userId: 'String'
     name: 'String'
     birthDate: 'DateTime'
     height: 'Float'
     weight: 'Float'
     gender: 'Gender'
   }
+  Session: {
+    sessionId: 'String'
+    name: 'String'
+    code: 'String'
+  }
 }
 
 // Helper to gather all methods relative to a model
 interface NexusPrismaMethods {
   User: Typegen.NexusPrismaFields<'User'>
+  Session: Typegen.NexusPrismaFields<'Session'>
   Query: Typegen.NexusPrismaFields<'Query'>
   Mutation: Typegen.NexusPrismaFields<'Mutation'>
 }

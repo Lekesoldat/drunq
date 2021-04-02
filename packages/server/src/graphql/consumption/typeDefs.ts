@@ -1,6 +1,6 @@
+import { objectType } from "nexus";
 import { Consumption as ConsumptionModel } from "@prisma/client";
-import { extendType, list, objectType } from "nexus";
-import { Drink } from "./Drink";
+import { Drink } from "../drink";
 
 export const Consumption = objectType({
   name: "Consumption",
@@ -13,16 +13,6 @@ export const Consumption = objectType({
         const { drinkId } = parent as ConsumptionModel;
         return ctx.prisma.drink.findUnique({ where: { id: drinkId } });
       },
-    });
-  },
-});
-
-export const ConsumptionQuery = extendType({
-  type: "Query",
-  definition: (t) => {
-    t.field("allConsumptions", {
-      type: list(Consumption),
-      resolve: async (_, __, ctx) => await ctx.prisma.consumption.findMany(),
     });
   },
 });

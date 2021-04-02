@@ -1,4 +1,4 @@
-import { Gender, PrismaClient } from ".prisma/client";
+import { Gender, PrismaClient } from "@prisma/client";
 import "dotenv/config";
 import faker from "faker/locale/nb_NO";
 
@@ -17,6 +17,8 @@ import faker from "faker/locale/nb_NO";
   const user1 = await prisma.user.create({
     data: {
       name: faker.name.firstName(),
+      email: faker.internet.email(),
+      password: faker.internet.password(),
       birthDate: faker.date.past(),
       gender: Math.random() > 0.5 ? Gender.MALE : Gender.FEMALE,
       weight: faker.random.number({ min: 50, max: 120 }),
@@ -26,6 +28,8 @@ import faker from "faker/locale/nb_NO";
   const user2 = await prisma.user.create({
     data: {
       name: faker.name.firstName(),
+      email: faker.internet.email(),
+      password: faker.internet.password(),
       birthDate: faker.date.past(),
       gender: Math.random() > 0.5 ? Gender.MALE : Gender.FEMALE,
       weight: faker.random.number({ min: 50, max: 120 }),
@@ -35,6 +39,8 @@ import faker from "faker/locale/nb_NO";
   const user3 = await prisma.user.create({
     data: {
       name: faker.name.firstName(),
+      email: faker.internet.email(),
+      password: faker.internet.password(),
       birthDate: faker.date.past(),
       gender: Math.random() > 0.5 ? Gender.MALE : Gender.FEMALE,
       weight: faker.random.number({ min: 50, max: 120 }),

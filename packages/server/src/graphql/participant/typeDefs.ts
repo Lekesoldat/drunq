@@ -1,8 +1,8 @@
 import { Participant as ParticipantModel } from "@prisma/client";
 import { list, objectType } from "nexus";
-import { calculateBACofDrink } from "../utils/calculations";
-import { Consumption } from "./Consumption";
-import { User } from "./User";
+import { calculateBACofDrink } from "../../utils/calculations";
+import { Consumption } from "../consumption";
+import { User } from "../user";
 
 // TODO: Implement Data Loader, have a look at Ben Awad N+1
 

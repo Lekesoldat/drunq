@@ -12,11 +12,15 @@
   },
   "dependencies": {
     "@prisma/client": "^2.19.0",
+    "@types/bcryptjs": "^2.4.2",
     "@types/faker": "^5.1.7",
+    "@types/jsonwebtoken": "^8.5.1",
     "apollo-server": "^2.22.1",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "faker": "^5.5.1",
     "graphql": "^15.5.0",
+    "jsonwebtoken": "^8.5.1",
     "nexus": "^1.0.0",
     "nexus-plugin-prisma": "^0.33.0",
     "ts-node-dev": "^1.1.6"
@@ -25,6 +29,8 @@
     "dev": "ts-node-dev --transpile-only --no-notify src/server.ts",
     "build": "tsc",
     "populate": "ts-node-dev populate.ts",
-    "calc": "ts-node-dev src/utils/calculations.ts"
+    "db-push": "npx prisma db push --preview-feature",
+    "studio": "npx prisma studio",
+    "nexus-generate": "ts-node-dev --transpile-only src/schema"
   }
 }

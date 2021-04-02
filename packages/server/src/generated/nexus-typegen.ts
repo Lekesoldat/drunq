@@ -5,6 +5,7 @@
 
 
 import { Context } from "./../context"
+import { core } from "nexus"
 
 
 declare global {
@@ -19,6 +20,18 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  SignInInput: { // input type
+    email: string; // String!
+    password: string; // String!
+  }
+  SignUpInput: { // input type
+    birthDate: string; // String!
+    email: string; // String!
+    gender: NexusGenEnums['Gender']; // Gender!
+    name: string; // String!
+    password: string; // String!
+    weight: number; // Float!
+  }
 }
 
 export interface NexusGenEnums {
@@ -35,6 +48,9 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  AccessToken: { // root type
+    accessToken?: string | null; // String
+  }
   Consumption: { // root type
     id?: string | null; // ID
     time: NexusGenScalars['DateTime']; // DateTime!
@@ -55,13 +71,16 @@ export interface NexusGenObjects {
     id?: string | null; // ID
     name?: string | null; // String
   }
-  Subscription: {};
   User: { // root type
     birthDate: NexusGenScalars['DateTime']; // DateTime!
+    email?: string | null; // String
     gender?: NexusGenEnums['Gender'] | null; // Gender
     id?: string | null; // ID
     name?: string | null; // String
     weight?: number | null; // Float
+  }
+  UserNotFoundError: { // root type
+    message: string; // String!
   }
 }
 
@@ -69,13 +88,18 @@ export interface NexusGenInterfaces {
 }
 
 export interface NexusGenUnions {
+  GetUserResult: core.Discriminate<'User', 'required'> | core.Discriminate<'UserNotFoundError', 'required'>;
+  SignInResult: core.Discriminate<'AccessToken', 'required'> | core.Discriminate<'UserNotFoundError', 'required'>;
 }
 
-export type NexusGenRootTypes = NexusGenObjects
+export type NexusGenRootTypes = NexusGenObjects & NexusGenUnions
 
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  AccessToken: { // field return type
+    accessToken: string | null; // String
+  }
   Consumption: { // field return type
     drink: NexusGenRootTypes['Drink'] | null; // Drink
     id: string | null; // ID
@@ -88,7 +112,8 @@ export interface NexusGenFieldTypes {
     volume: number | null; // Float
   }
   Mutation: { // field return type
-    createUser: NexusGenRootTypes['User'] | null; // User
+    signIn: NexusGenRootTypes['SignInResult'] | null; // SignInResult
+    signUp: NexusGenRootTypes['User'] | null; // User
   }
   Participant: { // field return type
     consumptions: Array<NexusGenRootTypes['Consumption'] | null> | null; // [Consumption]
@@ -103,7 +128,7 @@ export interface NexusGenFieldTypes {
     allUsers: Array<NexusGenRootTypes['User'] | null> | null; // [User]
     findDrink: NexusGenRootTypes['Drink'] | null; // Drink
     findSession: NexusGenRootTypes['Session'] | null; // Session
-    findUser: NexusGenRootTypes['User'] | null; // User
+    me: NexusGenRootTypes['GetUserResult'] | null; // GetUserResult
   }
   Session: { // field return type
     code: string | null; // String
@@ -112,19 +137,23 @@ export interface NexusGenFieldTypes {
     owner: NexusGenRootTypes['User'] | null; // User
     participants: Array<NexusGenRootTypes['Participant'] | null> | null; // [Participant]
   }
-  Subscription: { // field return type
-    newUser: NexusGenRootTypes['User'] | null; // User
-  }
   User: { // field return type
     birthDate: NexusGenScalars['DateTime']; // DateTime!
+    email: string | null; // String
     gender: NexusGenEnums['Gender'] | null; // Gender
     id: string | null; // ID
     name: string | null; // String
     weight: number | null; // Float
   }
+  UserNotFoundError: { // field return type
+    message: string; // String!
+  }
 }
 
 export interface NexusGenFieldTypeNames {
+  AccessToken: { // field return type name
+    accessToken: 'String'
+  }
   Consumption: { // field return type name
     drink: 'Drink'
     id: 'ID'
@@ -137,7 +166,8 @@ export interface NexusGenFieldTypeNames {
     volume: 'Float'
   }
   Mutation: { // field return type name
-    createUser: 'User'
+    signIn: 'SignInResult'
+    signUp: 'User'
   }
   Participant: { // field return type name
     consumptions: 'Consumption'
@@ -152,7 +182,7 @@ export interface NexusGenFieldTypeNames {
     allUsers: 'User'
     findDrink: 'Drink'
     findSession: 'Session'
-    findUser: 'User'
+    me: 'GetUserResult'
   }
   Session: { // field return type name
     code: 'String'
@@ -161,25 +191,26 @@ export interface NexusGenFieldTypeNames {
     owner: 'User'
     participants: 'Participant'
   }
-  Subscription: { // field return type name
-    newUser: 'User'
-  }
   User: { // field return type name
     birthDate: 'DateTime'
+    email: 'String'
     gender: 'Gender'
     id: 'ID'
     name: 'String'
     weight: 'Float'
   }
+  UserNotFoundError: { // field return type name
+    message: 'String'
+  }
 }
 
 export interface NexusGenArgTypes {
   Mutation: {
-    createUser: { // args
-      birthDate: string; // String!
-      gender: NexusGenEnums['Gender']; // Gender!
-      name: string; // String!
-      weight: number; // Float!
+    signIn: { // args
+      credentials: NexusGenInputs['SignInInput']; // SignInInput!
+    }
+    signUp: { // args
+      user: NexusGenInputs['SignUpInput']; // SignUpInput!
     }
   }
   Query: {
@@ -189,13 +220,12 @@ export interface NexusGenArgTypes {
     findSession: { // args
       id: string; // ID!
     }
-    findUser: { // args
-      uuid: string; // String!
-    }
   }
 }
 
 export interface NexusGenAbstractTypeMembers {
+  GetUserResult: "User" | "UserNotFoundError"
+  SignInResult: "AccessToken" | "UserNotFoundError"
 }
 
 export interface NexusGenTypeInterfaces {
@@ -203,7 +233,7 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
 export type NexusGenEnumNames = keyof NexusGenEnums;
 
@@ -211,7 +241,7 @@ export type NexusGenInterfaceNames = never;
 
 export type NexusGenScalarNames = keyof NexusGenScalars;
 
-export type NexusGenUnionNames = never;
+export type NexusGenUnionNames = keyof NexusGenUnions;
 
 export type NexusGenObjectsUsingAbstractStrategyIsTypeOf = never;
 
@@ -219,9 +249,9 @@ export type NexusGenAbstractsUsingStrategyResolveType = never;
 
 export type NexusGenFeaturesConfig = {
   abstractTypeStrategies: {
+    __typename: true
     isTypeOf: false
-    resolveType: true
-    __typename: false
+    resolveType: false
   }
 }
 

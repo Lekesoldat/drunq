@@ -1,7 +1,7 @@
 import { Session as SessionModel } from "@prisma/client";
-import { extendType, idArg, list, nonNull, objectType } from "nexus";
-import { Participant } from "./Participant";
-import { User } from "./User";
+import { list, objectType } from "nexus";
+import { Participant } from "../participant";
+import { User } from "../user";
 
 export const Session = objectType({
   name: "Session",
@@ -9,6 +9,7 @@ export const Session = objectType({
     t.id("id");
     t.string("name");
     t.string("code");
+
     t.field("owner", {
       type: User,
       resolve: async (parent, __, ctx) => {
@@ -20,6 +21,7 @@ export const Session = objectType({
         return owner;
       },
     });
+
     t.field("participants", {
       type: list(Participant),
       resolve: (parent, __, ctx) => {
@@ -28,25 +30,6 @@ export const Session = objectType({
           where: { sessionId: id },
         });
       },
-    });
-  },
-});
-
-export const SessionQuery = extendType({
-  type: "Query",
-  definition(t) {
-    t.field("allSessions", {
-      type: list(Session),
-      resolve: async (_, __, ctx) => await ctx.prisma.session.findMany(),
-    });
-
-    t.field("findSession", {
-      type: Session,
-      args: {
-        id: nonNull(idArg()),
-      },
-      resolve: async (_, { id }, ctx) =>
-        await ctx.prisma.session.findUnique({ where: { id } }),
     });
   },
 });

@@ -2,6 +2,10 @@
 ### Do not make changes to this file directly
 
 
+type AccessToken {
+  accessToken: String
+}
+
 type Consumption {
   drink: Drink
   id: ID
@@ -23,8 +27,11 @@ enum Gender {
   MALE
 }
 
+union GetUserResult = User | UserNotFoundError
+
 type Mutation {
-  createUser(birthDate: String!, gender: Gender!, name: String!, weight: Float!): User
+  signIn(credentials: SignInInput!): SignInResult
+  signUp(user: SignUpInput!): User
 }
 
 type Participant {
@@ -41,7 +48,7 @@ type Query {
   allUsers: [User]
   findDrink(drinkId: Int!): Drink
   findSession(id: ID!): Session
-  findUser(uuid: String!): User
+  me: GetUserResult
 }
 
 type Session {
@@ -52,14 +59,31 @@ type Session {
   participants: [Participant]
 }
 
-type Subscription {
-  newUser: User
+input SignInInput {
+  email: String!
+  password: String!
+}
+
+union SignInResult = AccessToken | UserNotFoundError
+
+input SignUpInput {
+  birthDate: String!
+  email: String!
+  gender: Gender!
+  name: String!
+  password: String!
+  weight: Float!
 }
 
 type User {
   birthDate: DateTime!
+  email: String
   gender: Gender
   id: ID
   name: String
   weight: Float
+}
+
+type UserNotFoundError {
+  message: String!
 }

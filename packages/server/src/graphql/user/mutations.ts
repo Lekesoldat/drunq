@@ -61,7 +61,7 @@ export const signIn = mutationField("signIn", {
 
     if (!valid)
       return {
-        __typename: "UserNotFoundError",
+        __typename: "InvalidPasswordError",
         message: `Password is incorrect.`,
       };
 

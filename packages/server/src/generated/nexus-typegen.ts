@@ -61,6 +61,9 @@ export interface NexusGenObjects {
     percentage?: number | null; // Float
     volume?: number | null; // Float
   }
+  InvalidPasswordError: { // root type
+    message: string; // String!
+  }
   Mutation: {};
   Participant: { // root type
     joinedDate: NexusGenScalars['DateTime']; // DateTime!
@@ -89,7 +92,7 @@ export interface NexusGenInterfaces {
 
 export interface NexusGenUnions {
   GetUserResult: core.Discriminate<'User', 'required'> | core.Discriminate<'UserNotFoundError', 'required'>;
-  SignInResult: core.Discriminate<'AccessToken', 'required'> | core.Discriminate<'UserNotFoundError', 'required'>;
+  SignInResult: core.Discriminate<'AccessToken', 'required'> | core.Discriminate<'InvalidPasswordError', 'required'> | core.Discriminate<'UserNotFoundError', 'required'>;
 }
 
 export type NexusGenRootTypes = NexusGenObjects & NexusGenUnions
@@ -110,6 +113,9 @@ export interface NexusGenFieldTypes {
     name: string | null; // String
     percentage: number | null; // Float
     volume: number | null; // Float
+  }
+  InvalidPasswordError: { // field return type
+    message: string; // String!
   }
   Mutation: { // field return type
     signIn: NexusGenRootTypes['SignInResult'] | null; // SignInResult
@@ -164,6 +170,9 @@ export interface NexusGenFieldTypeNames {
     name: 'String'
     percentage: 'Float'
     volume: 'Float'
+  }
+  InvalidPasswordError: { // field return type name
+    message: 'String'
   }
   Mutation: { // field return type name
     signIn: 'SignInResult'
@@ -225,7 +234,7 @@ export interface NexusGenArgTypes {
 
 export interface NexusGenAbstractTypeMembers {
   GetUserResult: "User" | "UserNotFoundError"
-  SignInResult: "AccessToken" | "UserNotFoundError"
+  SignInResult: "AccessToken" | "InvalidPasswordError" | "UserNotFoundError"
 }
 
 export interface NexusGenTypeInterfaces {

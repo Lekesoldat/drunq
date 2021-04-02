@@ -30,6 +30,13 @@ export const UserNotFoundError = objectType({
   },
 });
 
+export const InvalidPasswordError = objectType({
+  name: "InvalidPasswordError",
+  definition: (t) => {
+    t.nonNull.string("message");
+  },
+});
+
 export const GetUserResult = unionType({
   name: "GetUserResult",
   definition: (t) => {
@@ -40,6 +47,6 @@ export const GetUserResult = unionType({
 export const SignInResult = unionType({
   name: "SignInResult",
   definition: (t) => {
-    t.members("AccessToken", "UserNotFoundError");
+    t.members("AccessToken", "UserNotFoundError", "InvalidPasswordError");
   },
 });

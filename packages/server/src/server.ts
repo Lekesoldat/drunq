@@ -6,6 +6,9 @@ import * as session from "./middleware/session";
 (async () => {
   const app = express();
 
+  // * if you run behind a proxy (e.g. nginx)
+  // * app.set('trust proxy', 1);
+
   app.use(session.initialize());
   app.use(await graphql.initialize());
 

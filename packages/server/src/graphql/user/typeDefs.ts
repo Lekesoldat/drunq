@@ -17,7 +17,7 @@ export const User = objectType({
     t.id("id");
     t.string("email");
     t.string("name");
-    t.model.birthDate();
+    t.datetime("birthDate");
     t.float("weight");
     t.field("gender", { type: Gender });
   },

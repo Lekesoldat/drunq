@@ -11,9 +11,8 @@ export const allUsers = queryField("allUsers", {
 
 export const me = queryField("me", {
   type: User,
+  authorize: (_, __, ctx) => !!ctx.userId,
   resolve: async (_, __, ctx) => {
-    if (!ctx.userId) throw new Error("You are currently not logged in.");
-
     const user = await ctx.prisma.user.findUnique({
       where: { id: ctx.userId },
     });

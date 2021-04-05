@@ -9,7 +9,7 @@ import { User } from "../user";
 export const Participant = objectType({
   name: "Participant",
   definition: (t) => {
-    t.model.joinedDate();
+    t.datetime("joinedDate");
 
     t.field("user", {
       type: User,

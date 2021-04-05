@@ -1,3 +1,4 @@
+export * from "./scalars";
 export * from "./consumption";
 export * from "./drink";
 export * from "./participant";

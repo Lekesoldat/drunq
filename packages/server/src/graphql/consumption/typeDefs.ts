@@ -6,7 +6,7 @@ export const Consumption = objectType({
   name: "Consumption",
   definition: (t) => {
     t.id("id");
-    t.model.time();
+    t.datetime("time");
     t.field("drink", {
       type: Drink,
       resolve: async (parent, __, ctx) => {

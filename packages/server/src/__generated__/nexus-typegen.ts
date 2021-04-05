@@ -4,16 +4,26 @@
  */
 
 
-import { Context } from "./../context"
+import { Context } from "./../graphql/context"
 import { FieldAuthorizeResolver } from "nexus/dist/plugins/fieldAuthorizePlugin"
-
-
+import { core } from "nexus"
 declare global {
-  interface NexusGenCustomOutputProperties<TypeName extends string> {
-    model: NexusPrisma<TypeName, 'model'>
-    crud: any
+  interface NexusGenCustomInputMethods<TypeName extends string> {
+    /**
+     * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+     */
+    datetime<FieldName extends string>(fieldName: FieldName, opts?: core.CommonInputFieldConfig<TypeName, FieldName>): void // "DateTime";
   }
 }
+declare global {
+  interface NexusGenCustomOutputMethods<TypeName extends string> {
+    /**
+     * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+     */
+    datetime<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "DateTime";
+  }
+}
+
 
 declare global {
   interface NexusGen extends NexusGenTypes {}
@@ -53,17 +63,17 @@ export interface NexusGenObjects {
   }
   Consumption: { // root type
     id?: string | null; // ID
-    time: NexusGenScalars['DateTime']; // DateTime!
+    time?: NexusGenScalars['DateTime'] | null; // DateTime
   }
   Drink: { // root type
-    id: string; // String!
+    id?: string | null; // ID
     name?: string | null; // String
     percentage?: number | null; // Float
     volume?: number | null; // Float
   }
   Mutation: {};
   Participant: { // root type
-    joinedDate: NexusGenScalars['DateTime']; // DateTime!
+    joinedDate?: NexusGenScalars['DateTime'] | null; // DateTime
   }
   Query: {};
   Session: { // root type
@@ -72,7 +82,7 @@ export interface NexusGenObjects {
     name?: string | null; // String
   }
   User: { // root type
-    birthDate: NexusGenScalars['DateTime']; // DateTime!
+    birthDate?: NexusGenScalars['DateTime'] | null; // DateTime
     email?: string | null; // String
     gender?: NexusGenEnums['Gender'] | null; // Gender
     id?: string | null; // ID
@@ -98,10 +108,10 @@ export interface NexusGenFieldTypes {
   Consumption: { // field return type
     drink: NexusGenRootTypes['Drink'] | null; // Drink
     id: string | null; // ID
-    time: NexusGenScalars['DateTime']; // DateTime!
+    time: NexusGenScalars['DateTime'] | null; // DateTime
   }
   Drink: { // field return type
-    id: string; // String!
+    id: string | null; // ID
     name: string | null; // String
     percentage: number | null; // Float
     volume: number | null; // Float
@@ -114,7 +124,7 @@ export interface NexusGenFieldTypes {
   Participant: { // field return type
     consumptions: Array<NexusGenRootTypes['Consumption'] | null> | null; // [Consumption]
     currentBAC: number | null; // Float
-    joinedDate: NexusGenScalars['DateTime']; // DateTime!
+    joinedDate: NexusGenScalars['DateTime'] | null; // DateTime
     user: NexusGenRootTypes['User'] | null; // User
   }
   Query: { // field return type
@@ -132,7 +142,7 @@ export interface NexusGenFieldTypes {
     participants: Array<NexusGenRootTypes['Participant'] | null> | null; // [Participant]
   }
   User: { // field return type
-    birthDate: NexusGenScalars['DateTime']; // DateTime!
+    birthDate: NexusGenScalars['DateTime'] | null; // DateTime
     email: string | null; // String
     gender: NexusGenEnums['Gender'] | null; // Gender
     id: string | null; // ID
@@ -151,7 +161,7 @@ export interface NexusGenFieldTypeNames {
     time: 'DateTime'
   }
   Drink: { // field return type name
-    id: 'String'
+    id: 'ID'
     name: 'String'
     percentage: 'Float'
     volume: 'Float'

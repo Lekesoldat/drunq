@@ -4,7 +4,7 @@ import {
   GetMiddlewareOptions,
   PubSub,
 } from "apollo-server-express";
-import { schema } from "../schema";
+import { schema } from "../graphql/schema";
 
 const prisma = new PrismaClient();
 const pubsub = new PubSub();

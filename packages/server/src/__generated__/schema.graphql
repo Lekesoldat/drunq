@@ -9,13 +9,16 @@ type AccessToken {
 type Consumption {
   drink: Drink
   id: ID
-  time: DateTime!
+  time: DateTime
 }
 
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
 scalar DateTime
 
 type Drink {
-  id: String!
+  id: ID
   name: String
   percentage: Float
   volume: Float
@@ -36,7 +39,7 @@ type Mutation {
 type Participant {
   consumptions: [Consumption]
   currentBAC: Float
-  joinedDate: DateTime!
+  joinedDate: DateTime
   user: User
 }
 
@@ -71,7 +74,7 @@ input SignUpInput {
 }
 
 type User {
-  birthDate: DateTime!
+  birthDate: DateTime
   email: String
   gender: Gender
   id: ID

@@ -1,4 +1,4 @@
-import { makeSchema } from "nexus";
+import { fieldAuthorizePlugin, makeSchema } from "nexus";
 import { nexusPrisma } from "nexus-plugin-prisma";
 import { join } from "path";
 import * as types from "./graphql/index";
@@ -10,6 +10,7 @@ export const schema = makeSchema({
     schema: join(__dirname, "./generated", "schema.graphql"),
   },
   plugins: [
+    fieldAuthorizePlugin(),
     nexusPrisma({
       outputs: {
         typegen: join(__dirname, "./generated", "prisma-nexus-typegen.ts"),

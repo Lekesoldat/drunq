@@ -5,6 +5,7 @@
 
 
 import { Context } from "./../context"
+import { FieldAuthorizeResolver } from "nexus/dist/plugins/fieldAuthorizePlugin"
 import { core } from "nexus"
 
 
@@ -118,8 +119,9 @@ export interface NexusGenFieldTypes {
     message: string; // String!
   }
   Mutation: { // field return type
-    signIn: NexusGenRootTypes['SignInResult'] | null; // SignInResult
-    signUp: NexusGenRootTypes['User'] | null; // User
+    signIn: boolean | null; // Boolean
+    signOut: boolean | null; // Boolean
+    signUp: boolean | null; // Boolean
   }
   Participant: { // field return type
     consumptions: Array<NexusGenRootTypes['Consumption'] | null> | null; // [Consumption]
@@ -130,11 +132,9 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     allConsumptions: Array<NexusGenRootTypes['Consumption'] | null> | null; // [Consumption]
     allDrinks: Array<NexusGenRootTypes['Drink'] | null> | null; // [Drink]
-    allSessions: Array<NexusGenRootTypes['Session'] | null> | null; // [Session]
     allUsers: Array<NexusGenRootTypes['User'] | null> | null; // [User]
-    findDrink: NexusGenRootTypes['Drink'] | null; // Drink
-    findSession: NexusGenRootTypes['Session'] | null; // Session
-    me: NexusGenRootTypes['GetUserResult'] | null; // GetUserResult
+    me: NexusGenRootTypes['User'] | null; // User
+    mySessions: Array<NexusGenRootTypes['Session'] | null> | null; // [Session]
   }
   Session: { // field return type
     code: string | null; // String
@@ -175,8 +175,9 @@ export interface NexusGenFieldTypeNames {
     message: 'String'
   }
   Mutation: { // field return type name
-    signIn: 'SignInResult'
-    signUp: 'User'
+    signIn: 'Boolean'
+    signOut: 'Boolean'
+    signUp: 'Boolean'
   }
   Participant: { // field return type name
     consumptions: 'Consumption'
@@ -187,11 +188,9 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     allConsumptions: 'Consumption'
     allDrinks: 'Drink'
-    allSessions: 'Session'
     allUsers: 'User'
-    findDrink: 'Drink'
-    findSession: 'Session'
-    me: 'GetUserResult'
+    me: 'User'
+    mySessions: 'Session'
   }
   Session: { // field return type name
     code: 'String'
@@ -220,14 +219,6 @@ export interface NexusGenArgTypes {
     }
     signUp: { // args
       user: NexusGenInputs['SignUpInput']; // SignUpInput!
-    }
-  }
-  Query: {
-    findDrink: { // args
-      drinkId: number; // Int!
-    }
-    findSession: { // args
-      id: string; // ID!
     }
   }
 }
@@ -295,6 +286,15 @@ declare global {
   interface NexusGenPluginTypeConfig<TypeName extends string> {
   }
   interface NexusGenPluginFieldConfig<TypeName extends string, FieldName extends string> {
+    /**
+     * Authorization for an individual field. Returning "true"
+     * or "Promise<true>" means the field can be accessed.
+     * Returning "false" or "Promise<false>" will respond
+     * with a "Not Authorized" error for the field.
+     * Returning or throwing an error will also prevent the
+     * resolver from executing.
+     */
+    authorize?: FieldAuthorizeResolver<TypeName, FieldName>
   }
   interface NexusGenPluginInputFieldConfig<TypeName extends string, FieldName extends string> {
   }

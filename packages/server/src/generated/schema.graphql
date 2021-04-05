@@ -34,8 +34,9 @@ type InvalidPasswordError {
 }
 
 type Mutation {
-  signIn(credentials: SignInInput!): SignInResult
-  signUp(user: SignUpInput!): User
+  signIn(credentials: SignInInput!): Boolean
+  signOut: Boolean
+  signUp(user: SignUpInput!): Boolean
 }
 
 type Participant {
@@ -48,11 +49,9 @@ type Participant {
 type Query {
   allConsumptions: [Consumption]
   allDrinks: [Drink]
-  allSessions: [Session]
   allUsers: [User]
-  findDrink(drinkId: Int!): Drink
-  findSession(id: ID!): Session
-  me: GetUserResult
+  me: User
+  mySessions: [Session]
 }
 
 type Session {

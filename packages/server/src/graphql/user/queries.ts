@@ -1,6 +1,6 @@
 import { list, queryField } from "nexus";
-import { GetUserResult } from "./index";
 import { User } from "./typeDefs";
+
 export const allUsers = queryField("allUsers", {
   type: list(User),
   resolve: async (_, __, ctx) => {
@@ -10,21 +10,15 @@ export const allUsers = queryField("allUsers", {
 });
 
 export const me = queryField("me", {
-  type: GetUserResult,
+  type: User,
   resolve: async (_, __, ctx) => {
-    // TODO: Use GraphQl-shield to handle these errors
-    if (!ctx.userId) throw new Error("No authentication header found");
+    if (!ctx.userId) throw new Error("You are currently not logged in.");
 
     const user = await ctx.prisma.user.findUnique({
       where: { id: ctx.userId },
     });
 
-    if (!user) {
-      return {
-        __typename: "UserNotFoundError",
-        message: "No user found.",
-      };
-    }
-    return { __typename: "User", ...user };
+    if (!user) throw new Error("User not found.");
+    return user;
   },
 });

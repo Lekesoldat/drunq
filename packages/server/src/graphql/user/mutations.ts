@@ -1,7 +1,6 @@
+import { AuthenticationError } from "apollo-server-errors";
 import { compare, hash } from "bcryptjs";
 import { inputObjectType, mutationField, nonNull } from "nexus";
-import { createAccessToken } from "../../utils/auth";
-import { User } from "./index";
 
 export const SignUpInput = inputObjectType({
   name: "SignUpInput",
@@ -16,20 +15,28 @@ export const SignUpInput = inputObjectType({
 });
 
 export const signUp = mutationField("signUp", {
-  type: User,
+  type: "Boolean",
   args: { user: nonNull(SignUpInput) },
   resolve: async (_, { user }, ctx) => {
-    const hashedPassword = await hash(user.password, 10);
+    try {
+      const hashedPassword = await hash(user.password, 10);
 
-    const newUser = ctx.prisma.user.create({
-      data: {
-        ...user,
-        password: hashedPassword,
-        birthDate: new Date(user.birthDate),
-      },
-    });
+      const newUser = await ctx.prisma.user.create({
+        data: {
+          ...user,
+          password: hashedPassword,
+          birthDate: new Date(user.birthDate),
+        },
+      });
 
-    return newUser;
+      ctx.session.user = {
+        id: newUser.id,
+      };
+
+      return true;
+    } catch (err) {
+      return false;
+    }
   },
 });
 
@@ -42,7 +49,7 @@ export const SignInInput = inputObjectType({
 });
 
 export const signIn = mutationField("signIn", {
-  type: "SignInResult",
+  type: "Boolean",
   args: { credentials: nonNull(SignInInput) },
   resolve: async (_, { credentials: { email, password } }, ctx) => {
     const user = await ctx.prisma.user.findUnique({
@@ -51,20 +58,25 @@ export const signIn = mutationField("signIn", {
       },
     });
 
-    if (!user)
-      return {
-        __typename: "UserNotFoundError",
-        message: `${email} is not registered`,
-      };
+    if (!user) throw new AuthenticationError("Bad login.");
 
-    const valid = await compare(password, user.password);
+    const validPassword = await compare(password, user.password);
+    if (!validPassword) throw new AuthenticationError("Bad login.");
 
-    if (!valid)
-      return {
-        __typename: "InvalidPasswordError",
-        message: `Password is incorrect.`,
-      };
+    ctx.session.user = { id: user.id };
 
-    return { __typename: "AccessToken", accessToken: createAccessToken(user) };
+    return true;
+  },
+});
+
+export const signOut = mutationField("signOut", {
+  type: "Boolean",
+  resolve: async (_, __, ctx) => {
+    try {
+      ctx.session.destroy(() => {});
+      return true;
+    } catch (err) {
+      return false;
+    }
   },
 });

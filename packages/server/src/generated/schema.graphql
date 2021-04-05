@@ -27,12 +27,6 @@ enum Gender {
   MALE
 }
 
-union GetUserResult = User | UserNotFoundError
-
-type InvalidPasswordError {
-  message: String!
-}
-
 type Mutation {
   signIn(credentials: SignInInput!): Boolean
   signOut: Boolean
@@ -67,8 +61,6 @@ input SignInInput {
   password: String!
 }
 
-union SignInResult = AccessToken | InvalidPasswordError | UserNotFoundError
-
 input SignUpInput {
   birthDate: String!
   email: String!
@@ -85,8 +77,4 @@ type User {
   id: ID
   name: String
   weight: Float
-}
-
-type UserNotFoundError {
-  message: String!
 }

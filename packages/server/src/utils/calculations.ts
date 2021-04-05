@@ -29,14 +29,3 @@ export const calculateBACofDrink = ({
     metabolized
   );
 };
-
-// console.log(
-//   "BAC: ",
-//   calculateBACofDrink({
-//     gender: "MAN",
-//     consumedAt: new Date().getHours() - 1,
-//     weight: 90,
-//     percentage: 4.6,
-//     volume: 0.33,
-//   })
-// );

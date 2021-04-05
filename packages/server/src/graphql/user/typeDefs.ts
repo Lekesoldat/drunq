@@ -1,4 +1,4 @@
-import { enumType, objectType, unionType } from "nexus";
+import { enumType, objectType } from "nexus";
 
 export const AccessToken = objectType({
   name: "AccessToken",
@@ -20,33 +20,5 @@ export const User = objectType({
     t.model.birthDate();
     t.float("weight");
     t.field("gender", { type: Gender });
-  },
-});
-
-export const UserNotFoundError = objectType({
-  name: "UserNotFoundError",
-  definition: (t) => {
-    t.nonNull.string("message");
-  },
-});
-
-export const InvalidPasswordError = objectType({
-  name: "InvalidPasswordError",
-  definition: (t) => {
-    t.nonNull.string("message");
-  },
-});
-
-export const GetUserResult = unionType({
-  name: "GetUserResult",
-  definition: (t) => {
-    t.members("User", "UserNotFoundError");
-  },
-});
-
-export const SignInResult = unionType({
-  name: "SignInResult",
-  definition: (t) => {
-    t.members("AccessToken", "UserNotFoundError", "InvalidPasswordError");
   },
 });

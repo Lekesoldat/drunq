@@ -1,47 +1,17 @@
-import { PrismaClient } from "@prisma/client";
-import { ApolloServer, PubSub } from "apollo-server";
 import "dotenv/config";
-import { verify } from "jsonwebtoken";
-import { schema } from "./schema";
-
-const prisma = new PrismaClient();
-const pubsub = new PubSub();
-
-interface Payload {
-  userId: string;
-}
-
-const server = new ApolloServer({
-  schema,
-  context: ({ req }) => {
-    const authorization = req.headers.authorization || "";
-
-    const [_, token] = authorization.split(" ");
-
-    try {
-      const { userId } = verify(
-        token,
-        process.env.JWT_ACCESS_TOKEN_SECRET!
-      ) as Payload;
-
-      return { prisma, pubsub, userId };
-    } catch (error) {
-      // Do something here
-    }
-
-    return { prisma, pubsub };
-  },
-  tracing: true,
-});
+import express from "express";
+import * as graphql from "./middleware/graphql";
+import * as session from "./middleware/session";
 
 (async () => {
-  server.listen().then(({ url }) => {
-    console.log(`🚀 Server ready at ${url}`);
+  const app = express();
+
+  app.use(session.initialize());
+  app.use(await graphql.initialize());
+
+  app.listen(process.env.PORT, () => {
+    console.log(`🚀 Server running at *:${process.env.PORT}`);
   });
-})()
-  .catch((e) => {
-    throw e;
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+})().catch((e) => {
+  throw e;
+});

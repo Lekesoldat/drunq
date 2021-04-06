@@ -1,7 +1,7 @@
 {
   "name": "drunq",
   "version": "1.0.0",
-  "repository": "git@github.com:Lekesoldat/straffepils.git",
+  "repository": "git@github.com:Lekesoldat/drunq.git",
   "author": "Magnus Lauritzen Holtet <magnulho@gmail.com>",
   "license": "MIT",
   "private": true,
@@ -10,7 +10,15 @@
   ],
   "scripts": {
     "client": "yarn workspace client start",
-    "server": "yarn workspace client server",
-    "server-dev": "yarn workspace server dev"
+    "server": "yarn workspace server start",
+    "server-dev": "yarn workspace server dev",
+    "generate": "graphql-codegen --config codegen.yml"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^1.21.3",
+    "@graphql-codegen/introspection": "1.18.1",
+    "@graphql-codegen/typescript": "1.21.1",
+    "@graphql-codegen/typescript-operations": "1.17.15",
+    "@graphql-codegen/typescript-react-apollo": "2.2.3"
   }
 }
